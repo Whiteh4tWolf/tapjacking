@@ -4,23 +4,38 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Brand -->
-    <color name="brand_primary">#10B981</color>
+    <!-- Brand — emerald tonal ramp tuned for a dark surface -->
+    <color name="brand_primary">#34D399</color>
     <color name="brand_primary_dark">#047857</color>
-    <color name="on_brand_primary">#FFFFFF</color>
+    <color name="on_brand_primary">#00382A</color>
+    <color name="brand_container">#0B4F3C</color>
+    <color name="on_brand_container">#A7F3D0</color>
 
-    <!-- Background -->
-    <color name="surface">#18181B</color>
-    <color name="card_surface">#27272A</color>
-    <color name="surface_variant">#3F3F46</color>
+    <!-- Surfaces — elevation is expressed as tone, not shadow -->
+    <color name="surface">#0E1013</color>
+    <color name="surface_container_low">#131619</color>
+    <color name="surface_container">#171A1E</color>
+    <color name="surface_container_high">#1E2228</color>
+    <color name="surface_container_highest">#262B32</color>
+
+    <!-- Legacy aliases kept so older references stay valid -->
+    <color name="card_surface">#171A1E</color>
+    <color name="surface_variant">#262B32</color>
+
+    <!-- Outlines -->
+    <color name="outline">#3A424B</color>
+    <color name="outline_variant">#272D34</color>
 
     <!-- Text -->
-    <color name="text_primary">#FAFAFA</color>
-    <color name="text_secondary">#A1A1AA</color>
+    <color name="text_primary">#E6E9EC</color>
+    <color name="text_secondary">#98A0A9</color>
+    <color name="text_tertiary">#6A727B</color>
 
     <!-- Status -->
-    <color name="danger">#EF4444</color>
-    <color name="success">#22C55E</color>
+    <color name="danger">#F87171</color>
+    <color name="danger_container">#2A1416</color>
+    <color name="success">#34D399</color>
+    <color name="success_container">#0C2A22</color>
 
     <!-- Decoy Button Colors -->
     <color name="decoy_red">#EF4444</color>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Plain oval with no stroke: backgroundTint would tint the stroke too, so the
+     selection ring lives in a separate view (bg_swatch_ring). -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="@color/decoy_red" />
-    <stroke
-        android:width="2dp"
-        android:color="@color/white" />
+    <solid android:color="@color/white" />
 </shape>

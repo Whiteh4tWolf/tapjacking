@@ -4,12 +4,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +25,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,6 +33,17 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int[] SWATCH_IDS = {
+            R.id.swatchRed, R.id.swatchOrange, R.id.swatchGreen, R.id.swatchBlue, R.id.swatchPurple};
+    private static final int[] RING_IDS = {
+            R.id.ringRed, R.id.ringOrange, R.id.ringGreen, R.id.ringBlue, R.id.ringPurple};
+    private static final int[] SWATCH_COLORS = {
+            R.color.decoy_red, R.color.decoy_orange, R.color.decoy_green,
+            R.color.decoy_blue, R.color.decoy_purple};
+    private static final int DEFAULT_SWATCH_INDEX = 1; // orange
+
+    private MaterialCardView cardPermission;
+    private ImageView ivPermissionIcon;
     private TextView tvPermissionStatus;
     private MaterialButton btnGrantPermission;
     private TextInputLayout tilButtonText;
@@ -36,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
     private Slider sliderWidth;
     private Slider sliderHeight;
     private Slider sliderOpacity;
-    private TextView tvWidthLabel;
-    private TextView tvHeightLabel;
-    private TextView tvOpacityLabel;
+    private TextView tvWidthValue;
+    private TextView tvHeightValue;
+    private TextView tvOpacityValue;
     private MaterialSwitch switchLock;
+    private ImageView ivHintIcon;
     private TextView tvDragHint;
     private MaterialButton btnShowOverlay;
 
@@ -83,24 +99,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bindViews();
-        selectedColor = ContextCompat.getColor(this, R.color.decoy_orange);
 
-        tvWidthLabel.setText(getString(R.string.label_width, (int) sliderWidth.getValue()));
-        tvHeightLabel.setText(getString(R.string.label_height, (int) sliderHeight.getValue()));
-        tvOpacityLabel.setText(getString(R.string.label_opacity, (int) sliderOpacity.getValue()));
+        tvWidthValue.setText(getString(R.string.value_dp, (int) sliderWidth.getValue()));
+        tvHeightValue.setText(getString(R.string.value_dp, (int) sliderHeight.getValue()));
+        tvOpacityValue.setText(getString(R.string.value_percent, (int) sliderOpacity.getValue()));
 
+        cardPermission.setOnClickListener(v -> requestOverlayPermission());
         btnGrantPermission.setOnClickListener(v -> requestOverlayPermission());
 
         sliderWidth.addOnChangeListener((slider, value, fromUser) -> {
-            tvWidthLabel.setText(getString(R.string.label_width, (int) value));
+            tvWidthValue.setText(getString(R.string.value_dp, (int) value));
             pushConfigIfShown();
         });
         sliderHeight.addOnChangeListener((slider, value, fromUser) -> {
-            tvHeightLabel.setText(getString(R.string.label_height, (int) value));
+            tvHeightValue.setText(getString(R.string.value_dp, (int) value));
             pushConfigIfShown();
         });
         sliderOpacity.addOnChangeListener((slider, value, fromUser) -> {
-            tvOpacityLabel.setText(getString(R.string.label_opacity, (int) value));
+            tvOpacityValue.setText(getString(R.string.value_percent, (int) value));
             pushConfigIfShown();
         });
         etButtonText.addTextChangedListener(new android.text.TextWatcher() {
@@ -119,18 +135,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setupColorSwatch(R.id.swatchRed, R.color.decoy_red);
-        setupColorSwatch(R.id.swatchOrange, R.color.decoy_orange);
-        setupColorSwatch(R.id.swatchGreen, R.color.decoy_green);
-        setupColorSwatch(R.id.swatchBlue, R.color.decoy_blue);
-        setupColorSwatch(R.id.swatchPurple, R.color.decoy_purple);
+        setupColorSwatches();
 
         switchLock.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             tvDragHint.setText(isChecked ? R.string.hint_locked : R.string.hint_drag);
+            ivHintIcon.setImageResource(isChecked ? R.drawable.ic_lock : R.drawable.ic_info);
+            ivHintIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(
+                    this, isChecked ? R.color.brand_primary : R.color.text_secondary)));
             pushConfigIfShown();
         });
 
         btnShowOverlay.setOnClickListener(v -> toggleOverlay());
+        updateActionButton();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
@@ -140,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
+        cardPermission = findViewById(R.id.cardPermission);
+        ivPermissionIcon = findViewById(R.id.ivPermissionIcon);
         tvPermissionStatus = findViewById(R.id.tvPermissionStatus);
         btnGrantPermission = findViewById(R.id.btnGrantPermission);
         tilButtonText = findViewById(R.id.tilButtonText);
@@ -147,19 +165,29 @@ public class MainActivity extends AppCompatActivity {
         sliderWidth = findViewById(R.id.sliderWidth);
         sliderHeight = findViewById(R.id.sliderHeight);
         sliderOpacity = findViewById(R.id.sliderOpacity);
-        tvWidthLabel = findViewById(R.id.tvWidthLabel);
-        tvHeightLabel = findViewById(R.id.tvHeightLabel);
-        tvOpacityLabel = findViewById(R.id.tvOpacityLabel);
+        tvWidthValue = findViewById(R.id.tvWidthValue);
+        tvHeightValue = findViewById(R.id.tvHeightValue);
+        tvOpacityValue = findViewById(R.id.tvOpacityValue);
         switchLock = findViewById(R.id.switchLock);
+        ivHintIcon = findViewById(R.id.ivHintIcon);
         tvDragHint = findViewById(R.id.tvDragHint);
         btnShowOverlay = findViewById(R.id.btnShowOverlay);
     }
 
-    private void setupColorSwatch(int viewId, int colorRes) {
-        findViewById(viewId).setOnClickListener(v -> {
-            selectedColor = ContextCompat.getColor(this, colorRes);
-            pushConfigIfShown();
-        });
+    private void setupColorSwatches() {
+        for (int i = 0; i < SWATCH_IDS.length; i++) {
+            final int index = i;
+            findViewById(SWATCH_IDS[i]).setOnClickListener(v -> selectSwatch(index));
+        }
+        selectSwatch(DEFAULT_SWATCH_INDEX);
+    }
+
+    private void selectSwatch(int index) {
+        selectedColor = ContextCompat.getColor(this, SWATCH_COLORS[index]);
+        for (int i = 0; i < RING_IDS.length; i++) {
+            findViewById(RING_IDS[i]).setVisibility(i == index ? View.VISIBLE : View.INVISIBLE);
+        }
+        pushConfigIfShown();
     }
 
     private OverlayConfig buildConfig() {
@@ -196,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
             bindService(intent, connection, Context.BIND_AUTO_CREATE);
             isBound = true;
             overlayShown = true;
-            btnShowOverlay.setText(R.string.btn_hide_overlay);
+            updateActionButton();
             new android.os.Handler(getMainLooper()).postDelayed(this::pushConfigIfShown, 150);
         } else {
             if (isBound && overlayService != null) {
@@ -208,8 +236,22 @@ public class MainActivity extends AppCompatActivity {
                 isBound = false;
             }
             overlayShown = false;
-            btnShowOverlay.setText(R.string.btn_show_overlay);
+            updateActionButton();
         }
+    }
+
+    private void updateActionButton() {
+        btnShowOverlay.setText(overlayShown ? R.string.btn_hide_overlay : R.string.btn_show_overlay);
+        btnShowOverlay.setIconResource(overlayShown ? R.drawable.ic_stop : R.drawable.ic_play);
+
+        int background = ContextCompat.getColor(this,
+                overlayShown ? R.color.danger : R.color.brand_primary);
+        int foreground = ContextCompat.getColor(this,
+                overlayShown ? R.color.white : R.color.on_brand_primary);
+
+        btnShowOverlay.setBackgroundTintList(ColorStateList.valueOf(background));
+        btnShowOverlay.setTextColor(foreground);
+        btnShowOverlay.setIconTint(ColorStateList.valueOf(foreground));
     }
 
     private void requestOverlayPermission() {
@@ -221,12 +263,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshPermissionStatus() {
         boolean granted = Settings.canDrawOverlays(this);
+
         tvPermissionStatus.setText(granted
                 ? R.string.permission_status_granted
                 : R.string.permission_status_denied);
         tvPermissionStatus.setTextColor(ContextCompat.getColor(
                 this, granted ? R.color.success : R.color.danger));
-        btnGrantPermission.setVisibility(granted ? android.view.View.GONE : android.view.View.VISIBLE);
+
+        ivPermissionIcon.setImageResource(granted
+                ? R.drawable.ic_shield_check
+                : R.drawable.ic_shield_alert);
+        ivPermissionIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(
+                this, granted ? R.color.success : R.color.danger)));
+        ivPermissionIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(
+                this, granted ? R.color.success_container : R.color.danger_container)));
+
+        btnGrantPermission.setVisibility(granted ? View.GONE : View.VISIBLE);
+        cardPermission.setClickable(!granted);
     }
 
     @Override

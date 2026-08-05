@@ -3,12 +3,88 @@
     <style name="Base.Theme.Tapjacker" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="colorOnPrimary">@color/on_brand_primary</item>
+        <item name="colorPrimaryContainer">@color/brand_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_brand_container</item>
         <item name="colorSecondary">@color/brand_primary</item>
         <item name="colorOnSecondary">@color/on_brand_primary</item>
-        <item name="colorSurface">@color/card_surface</item>
-        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSecondaryContainer">@color/brand_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_brand_container</item>
+        <item name="colorError">@color/danger</item>
+
+        <item name="colorSurface">@color/surface_container</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_container_highest</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorSurfaceContainerLow">@color/surface_container_low</item>
+        <item name="colorSurfaceContainer">@color/surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/surface_container_high</item>
+        <item name="colorSurfaceContainerHighest">@color/surface_container_highest</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutlineVariant">@color/outline_variant</item>
         <item name="android:colorBackground">@color/surface</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="textInputStyle">@style/Widget.Tapjacker.TextInputLayout</item>
+        <item name="sliderStyle">@style/Widget.Tapjacker.Slider</item>
+        <item name="materialCardViewStyle">@style/Widget.Tapjacker.Card</item>
     </style>
 
     <style name="Theme.Tapjacker" parent="Base.Theme.Tapjacker" />
+
+    <!-- Cards: tonal elevation only, no shadow, generous corner radius. -->
+    <style name="Widget.Tapjacker.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/surface_container</item>
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/outline_variant</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Tapjacker.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/brand_primary</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="Widget.Tapjacker.Slider" parent="Widget.Material3.Slider">
+        <item name="thumbColor">@color/brand_primary</item>
+        <item name="trackColorActive">@color/brand_primary</item>
+        <item name="trackColorInactive">@color/surface_container_highest</item>
+        <item name="haloColor">#3334D399</item>
+        <item name="labelBehavior">gone</item>
+        <item name="tickVisible">false</item>
+        <item name="trackStopIndicatorSize">0dp</item>
+    </style>
+
+    <!-- Typography -->
+    <style name="TextAppearance.Tapjacker.CardTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Tapjacker.Label" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Tapjacker.Value" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textColor">@color/brand_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <!-- Reusable row: "Label ............ value" above a slider -->
+    <style name="Widget.Tapjacker.SliderRow" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
 </resources>

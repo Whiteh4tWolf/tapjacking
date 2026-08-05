@@ -11,104 +11,147 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface_variant">
+        android:background="@color/surface"
+        app:elevation="0dp"
+        app:liftOnScroll="true"
+        app:liftOnScrollColor="@color/surface_container">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="14dp">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/app_logo" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/app_logo" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_tagline"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
             </LinearLayout>
-        </com.google.android.material.appbar.MaterialToolbar>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="32dp">
 
-            <!-- 1. Permission card -->
+            <!-- 1. Permission status — a compact row when granted, expands with a
+                 call to action when it is not. -->
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewFilledStyle"
+                android:id="@+id/cardPermission"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                android:contentDescription="@string/cd_open_settings"
+                app:cardBackgroundColor="@color/surface_container"
+                app:rippleColor="@color/outline_variant">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="16dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/section_permission"
-                        android:textColor="@color/brand_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvPermissionStatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_status_pill"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="10dp"
-                        android:text="@string/permission_status_denied"
-                        android:textColor="@color/danger" />
+                        <ImageView
+                            android:id="@+id/ivPermissionIcon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:backgroundTint="@color/success_container"
+                            android:contentDescription="@string/cd_permission_icon"
+                            android:padding="9dp"
+                            android:src="@drawable/ic_shield_check"
+                            app:tint="@color/success" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/section_permission"
+                                android:textAppearance="@style/TextAppearance.Tapjacker.CardTitle" />
+
+                            <TextView
+                                android:id="@+id/tvPermissionStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/permission_status_denied"
+                                android:textColor="@color/danger"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_tertiary" />
+                    </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnGrantPermission"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="14dp"
                         android:text="@string/btn_grant_permission"
-                        android:textColor="@color/on_brand_primary"
-                        app:backgroundTint="@color/brand_primary"
-                        app:cornerRadius="14dp" />
+                        android:textColor="@color/on_brand_container"
+                        app:backgroundTint="@color/brand_container"
+                        app:cornerRadius="16dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 2. Overlay configuration card -->
+            <!-- 2. Decoy configuration -->
             <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewFilledStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/card_surface"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/surface_container">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,36 +163,48 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/section_config"
-                        android:textColor="@color/brand_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/TextAppearance.Tapjacker.CardTitle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/label_button_text"
+                        android:textAppearance="@style/TextAppearance.Tapjacker.Label" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilButtonText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        app:hintEnabled="false"
-                        app:boxCornerRadiusBottomEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusTopStart="14dp">
+                        android:layout_marginTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etButtonText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_button_text"
-                            android:maxLines="2" />
+                            android:maxLines="2"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_tertiary" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/tvWidthLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/label_width"
-                        android:textColor="@color/text_secondary" />
+                    <!-- Width -->
+                    <LinearLayout style="@style/Widget.Tapjacker.SliderRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/label_width"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Label" />
+
+                        <TextView
+                            android:id="@+id/tvWidthValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Value"
+                            tools:text="220 dp" />
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
                         android:id="@+id/sliderWidth"
@@ -158,16 +213,25 @@
                         android:stepSize="4"
                         android:value="220"
                         android:valueFrom="80"
-                        android:valueTo="360"
-                        app:thumbColor="@color/brand_primary"
-                        app:trackColorActive="@color/brand_primary" />
+                        android:valueTo="360" />
 
-                    <TextView
-                        android:id="@+id/tvHeightLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_height"
-                        android:textColor="@color/text_secondary" />
+                    <!-- Height -->
+                    <LinearLayout style="@style/Widget.Tapjacker.SliderRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/label_height"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Label" />
+
+                        <TextView
+                            android:id="@+id/tvHeightValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Value"
+                            tools:text="56 dp" />
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
                         android:id="@+id/sliderHeight"
@@ -176,16 +240,25 @@
                         android:stepSize="2"
                         android:value="56"
                         android:valueFrom="36"
-                        android:valueTo="160"
-                        app:thumbColor="@color/brand_primary"
-                        app:trackColorActive="@color/brand_primary" />
+                        android:valueTo="160" />
 
-                    <TextView
-                        android:id="@+id/tvOpacityLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_opacity"
-                        android:textColor="@color/text_secondary" />
+                    <!-- Opacity -->
+                    <LinearLayout style="@style/Widget.Tapjacker.SliderRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/label_opacity"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Label" />
+
+                        <TextView
+                            android:id="@+id/tvOpacityValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Tapjacker.Value"
+                            tools:text="100%" />
+                    </LinearLayout>
 
                     <com.google.android.material.slider.Slider
                         android:id="@+id/sliderOpacity"
@@ -194,107 +267,209 @@
                         android:stepSize="5"
                         android:value="100"
                         android:valueFrom="30"
-                        android:valueTo="100"
-                        app:thumbColor="@color/brand_primary"
-                        app:trackColorActive="@color/brand_primary" />
+                        android:valueTo="100" />
 
+                    <!-- Colour -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:text="@string/label_color"
-                        android:textColor="@color/text_secondary" />
+                        android:textAppearance="@style/TextAppearance.Tapjacker.Label" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        android:weightSum="5">
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
 
-                        <View
+                        <FrameLayout
                             android:id="@+id/swatchRed"
                             android:layout_width="0dp"
-                            android:layout_height="40dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:layout_margin="4dp"
-                            android:background="@drawable/bg_color_swatch"
-                            android:backgroundTint="@color/decoy_red"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:contentDescription="@string/cd_color_red"
+                            android:focusable="true">
 
-                        <View
+                            <View
+                                android:id="@+id/ringRed"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_swatch_ring"
+                                android:visibility="invisible" />
+
+                            <View
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_color_swatch"
+                                android:backgroundTint="@color/decoy_red" />
+                        </FrameLayout>
+
+                        <FrameLayout
                             android:id="@+id/swatchOrange"
                             android:layout_width="0dp"
-                            android:layout_height="40dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:layout_margin="4dp"
-                            android:background="@drawable/bg_color_swatch"
-                            android:backgroundTint="@color/decoy_orange"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:contentDescription="@string/cd_color_orange"
+                            android:focusable="true">
 
-                        <View
+                            <View
+                                android:id="@+id/ringOrange"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_swatch_ring"
+                                android:visibility="invisible" />
+
+                            <View
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_color_swatch"
+                                android:backgroundTint="@color/decoy_orange" />
+                        </FrameLayout>
+
+                        <FrameLayout
                             android:id="@+id/swatchGreen"
                             android:layout_width="0dp"
-                            android:layout_height="40dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:layout_margin="4dp"
-                            android:background="@drawable/bg_color_swatch"
-                            android:backgroundTint="@color/decoy_green"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:contentDescription="@string/cd_color_green"
+                            android:focusable="true">
 
-                        <View
+                            <View
+                                android:id="@+id/ringGreen"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_swatch_ring"
+                                android:visibility="invisible" />
+
+                            <View
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_color_swatch"
+                                android:backgroundTint="@color/decoy_green" />
+                        </FrameLayout>
+
+                        <FrameLayout
                             android:id="@+id/swatchBlue"
                             android:layout_width="0dp"
-                            android:layout_height="40dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:layout_margin="4dp"
-                            android:background="@drawable/bg_color_swatch"
-                            android:backgroundTint="@color/decoy_blue"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:contentDescription="@string/cd_color_blue"
+                            android:focusable="true">
 
-                        <View
+                            <View
+                                android:id="@+id/ringBlue"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_swatch_ring"
+                                android:visibility="invisible" />
+
+                            <View
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_color_swatch"
+                                android:backgroundTint="@color/decoy_blue" />
+                        </FrameLayout>
+
+                        <FrameLayout
                             android:id="@+id/swatchPurple"
                             android:layout_width="0dp"
-                            android:layout_height="40dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:layout_margin="4dp"
-                            android:background="@drawable/bg_color_swatch"
-                            android:backgroundTint="@color/decoy_purple"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:contentDescription="@string/cd_color_purple"
+                            android:focusable="true">
+
+                            <View
+                                android:id="@+id/ringPurple"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_swatch_ring"
+                                android:visibility="invisible" />
+
+                            <View
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/bg_color_swatch"
+                                android:backgroundTint="@color/decoy_purple" />
+                        </FrameLayout>
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/outline_variant" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switchLock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/switch_lock_position" />
+                        android:text="@string/switch_lock_position"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/tvDragHint"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/hint_drag"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp" />
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_hint_box"
+                        android:orientation="horizontal"
+                        android:padding="14dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnShowOverlay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/btn_show_overlay"
-                        android:textColor="@color/on_brand_primary"
-                        app:backgroundTint="@color/decoy_green"
-                        app:cornerRadius="14dp" />
+                        <ImageView
+                            android:id="@+id/ivHintIcon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginTop="1dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/text_secondary" />
+
+                        <TextView
+                            android:id="@+id/tvDragHint"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/hint_drag"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- 3. Primary action -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShowOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/btn_show_overlay"
+                android:textColor="@color/on_brand_primary"
+                android:textSize="16sp"
+                app:backgroundTint="@color/brand_primary"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="textStart"
+                app:iconTint="@color/on_brand_primary" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

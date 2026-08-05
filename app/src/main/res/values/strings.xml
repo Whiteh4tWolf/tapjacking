@@ -1,20 +1,32 @@
 <resources>
     <string name="app_name">Tapjacker</string>
+    <string name="app_tagline">Overlay tapjacking demo</string>
 
-    <string name="section_permission">Overlay Permission</string>
-    <string name="permission_status_granted">Overlay permission granted</string>
-    <string name="permission_status_denied">\"Display over other apps\" permission not granted yet</string>
-    <string name="btn_grant_permission">Grant Overlay Permission</string>
+    <string name="section_permission">Overlay permission</string>
+    <string name="permission_status_granted">Granted · SYSTEM_ALERT_WINDOW</string>
+    <string name="permission_status_denied">\"Display over other apps\" is off</string>
+    <string name="btn_grant_permission">Grant permission</string>
+    <string name="cd_permission_icon">Permission status</string>
+    <string name="cd_open_settings">Open overlay permission settings</string>
 
-    <string name="section_config">Decoy Button Configuration</string>
+    <string name="section_config">Decoy button</string>
+    <string name="label_button_text">Decoy text</string>
     <string name="hint_button_text">e.g. Congratulations! Claim your prize</string>
     <string name="error_button_text_required">Enter the button text first</string>
-    <string name="label_width">Width: %1$d dp</string>
-    <string name="label_height">Height: %1$d dp</string>
-    <string name="label_opacity">Opacity: %1$d%%</string>
+    <string name="label_width">Width</string>
+    <string name="label_height">Height</string>
+    <string name="label_opacity">Opacity</string>
+    <string name="value_dp">%1$d dp</string>
+    <string name="value_percent">%1$d%%</string>
     <string name="label_color">Button color</string>
-    <string name="btn_show_overlay">Show Overlay</string>
-    <string name="btn_hide_overlay">Hide Overlay</string>
+    <string name="cd_color_red">Red</string>
+    <string name="cd_color_orange">Orange</string>
+    <string name="cd_color_green">Green</string>
+    <string name="cd_color_blue">Blue</string>
+    <string name="cd_color_purple">Purple</string>
+
+    <string name="btn_show_overlay">Show overlay</string>
+    <string name="btn_hide_overlay">Hide overlay</string>
     <string name="switch_lock_position">Lock position (make click-through)</string>
     <string name="hint_drag">The overlay can still be dragged. Drag it into place, then lock it.</string>
     <string name="hint_locked">Overlay locked in place. Touches will pass through to the view beneath it (the real tapjacking behavior).</string>
