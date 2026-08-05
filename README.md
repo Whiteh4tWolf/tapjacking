@@ -18,7 +18,7 @@
 </tr>
 <tr>
 <td align="center"><sub>Configuration screen</sub></td>
-<td align="center"><sub>Decoy overlay ("Claim your voucher") floating live</sub></td>
+<td align="center"><sub>Decoy overlay ("Claim your voucher") floating live, here covering the app's own button</sub></td>
 <td align="center"><sub>Positioned over a real target app (OWASP MASTG) — the decoy hides its actual "Confirm Payment" button</sub></td>
 </tr>
 </table>
@@ -57,7 +57,7 @@ service/activity binder plumbing, and why this only works reliably against a
 | 🎨 5 preset colors | Red, orange, green, blue, purple |
 | 🖐️ Drag to position | Freely move the overlay while unlocked |
 | 🔒 Lock = click-through | Locks position **and** makes the overlay pass touches through to whatever is beneath it |
-| 🌙 Dark UI | Fixed dark theme, not tied to system light/dark setting |
+| 🌙 Material 3 dark UI | Tonal dark theme, fixed rather than tied to the system light/dark setting |
 
 ## Requirements
 
